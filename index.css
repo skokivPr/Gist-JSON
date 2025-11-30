@@ -204,6 +204,7 @@ h2 {
 /* --- FORMS --- */
 .form-group {
     margin-bottom: 15px;
+    padding: 0.2rem 0.5rem;
 }
 
 label {
@@ -247,6 +248,7 @@ textarea:focus {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+    padding: 0.2rem 0.5rem;
 }
 
 /* --- BUTTONS --- */
@@ -405,6 +407,7 @@ textarea:focus {
 .actions-group {
     display: flex;
     gap: 10px;
+    padding: 0.2rem 0.5rem;
 }
 
 /* --- LIST --- */
@@ -423,6 +426,7 @@ textarea:focus {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    padding: 0.2rem 0.5rem;
 }
 
 .empty-state {
@@ -833,4 +837,5 @@ pre#jsonOutput {
 
 .btn-link:hover p {
     color: var(--highlight-color);
+
 }
