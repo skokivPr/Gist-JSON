@@ -10,18 +10,13 @@
             --border-color-hover: #ccc;
 
             --shadow-drop:
-                0.5px 0.5px 0px #d1d5db,
-                1px 1px 0px #d1d5db,
-                1.5px 1.5px 0px #d1d5db,
-                2px 2px 0px #d1d5db,
-                2.5px 2.5px 0px #d1d5db,
-                3px 3px 0px #d1d5db,
-                4px 4px 8px rgba(163, 177, 198, 0.4),
-                -1px -1px 2px rgba(255, 255, 255, 0.8);
+                rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(78, 78, 78, 0.185) 0px 2px 6px 2px;
 
             --shadow-inset:
-                inset 2px 2px 5px rgba(163, 177, 198, 0.5),
-                inset -2px -2px 5px rgba(255, 255, 255, 0.8);
+                inset rgba(78, 78, 78, 0.185) 0px 2px 6px 2px, inset rgba(0, 0, 0, 0.3) 0px 1px 2px 0px;
+
+            --shadow-button: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(78, 78, 78, 0.185) 0px 2px 6px 2px;
+
 
             --screen-bg: #f0f0f0;
             --screen-border: #adb5bd;
@@ -35,6 +30,7 @@
             --json-number: #d63031;
             --json-boolean: #6c5ce7;
             --json-null: #b2bec3;
+            --json-yellow: #d39e00;
         }
 
         :root[theme="dark"] {
@@ -48,17 +44,14 @@
             --border-color-hover: #444;
 
             --shadow-drop:
-                0.5px 0.5px 0px #1a1a1a,
-                1px 1px 0px #1a1a1a,
-                1.5px 1.5px 0px #1a1a1a,
-                2px 2px 0px #111111,
-                2.5px 2.5px 0px #111111,
-                3px 3px 0px #050505,
-                6px 6px 12px rgba(0, 0, 0, 0.8);
+                rgba(32, 32, 32, 0.4) 0px 0px 0px 2px, rgba(0, 0, 0, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
 
             --shadow-inset:
-                inset 4px 4px 10px rgba(0, 0, 0, 0.9),
-                inset -1px -1px 3px rgba(255, 255, 255, 0.05);
+                inset 0px 0px 0px 2px rgba(32, 32, 32, 0.4),
+                inset 0px 4px 6px -1px rgba(0, 0, 0, 0.65),
+                inset 0px 1px 0px rgba(255, 255, 255, 0.08);
+
+            --shadow-button: rgba(32, 32, 32, 0.4) 0px 0px 0px 2px, rgba(0, 0, 0, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
 
             --screen-bg: #0d0d0d;
             --screen-border: #2a2a2a;
@@ -72,6 +65,7 @@
             --json-number: #ff7675;
             --json-boolean: #a29bfe;
             --json-null: #dfe6e9;
+            --json-yellow: #ad8200;
         }
 
         /* --- BASE STYLES --- */
@@ -88,6 +82,11 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
+        }
+
+        ::selection {
+            background: var(--border-color);
+            color: var(--text-color);
         }
 
         body {
@@ -194,7 +193,7 @@
             height: 36px;
             min-width: 36px;
             background: var(--panel-bg);
-            box-shadow: var(--shadow-drop);
+            box-shadow: var(--shadow-button);
             border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
@@ -223,18 +222,7 @@
 
         }
 
-        .btn-base.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 3px;
-            background: var(--highlight);
-            box-shadow: 0 0 8px var(--highlight);
-            z-index: 1;
-        }
+
 
         .nav-tabs .btn-base {
             background: transparent;
@@ -371,6 +359,10 @@
             color: var(--text-muted);
             margin-bottom: 5px;
             text-transform: uppercase;
+            background: var(--bg-color);
+            background-image: linear-gradient(135deg, var(--screen-bg) 25%, transparent 25%, transparent 50%, var(--screen-bg) 50%, var(--screen-bg) 75%,
+                    transparent 75%, transparent);
+            background-size: 10px 10px;
         }
 
         input[type="text"],
@@ -378,7 +370,7 @@
             width: 100%;
             background: var(--bg-color);
             border: 1px solid var(--border-color);
-            color: var(--text-color);
+            color: var(--json-yellow);
             font-family: "Share Tech Mono", "JetBrains Mono", "Consolas", "Monaco", "Courier New", monospace;
             padding: 8px 12px;
             font-size: 0.85rem;
@@ -389,7 +381,7 @@
         input[type="text"]:focus,
         textarea:focus {
             border-bottom: 1px solid var(--highlight);
-            color: var(--highlight);
+            color: var(--text-muted);
         }
 
         /* --- LIST SYSTEM --- */
@@ -410,35 +402,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.2s;
+            transition: all 0.2s ease-in-out;
             position: relative;
             box-shadow: var(--shadow-drop);
         }
 
         .list-item:hover {
-            border-left-color: var(--highlight);
             background: var(--bg-color);
+            background-image: linear-gradient(135deg, var(--screen-bg) 25%, transparent 25%, transparent 50%, var(--screen-bg) 50%, var(--screen-bg) 75%,
+                    transparent 75%, transparent);
+            background-size: 10px 10px;
         }
 
         .list-item.editing {
-            border-color: var(--highlight);
-            box-shadow: var(--shadow-drop);
+            background: var(--screen-bg);
         }
 
-        .list-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: transparent;
-            transition: background 0.2s;
-        }
 
-        .list-item:hover::before {
-            background: var(--highlight);
-        }
 
         .item-meta {
             display: flex;
@@ -589,7 +569,7 @@
         .modal-box {
             background: var(--panel-bg);
             box-shadow: var(--shadow-drop);
-            border: 1px solid var(--highlight);
+            border: 1px solid var(--border-color);
             width: 400px;
             padding: 2px;
         }
@@ -604,6 +584,9 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            background-image: linear-gradient(135deg, var(--screen-bg) 25%, transparent 25%, transparent 50%, var(--screen-bg) 50%, var(--screen-bg) 75%,
+                    transparent 75%, transparent);
+            background-size: 10px 10px;
         }
 
         .modal-content {
@@ -625,8 +608,8 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: var(--panel-bg);
-            border: 1px solid var(--highlight);
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
             color: var(--text-color);
             padding: 10px 20px;
             display: flex;
@@ -636,6 +619,9 @@
             transform: translateX(150%);
             transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
             z-index: 3000;
+            background-image: linear-gradient(135deg, var(--screen-bg) 25%, transparent 25%, transparent 50%, var(--screen-bg) 50%, var(--screen-bg) 75%,
+                    transparent 75%, transparent);
+            background-size: 10px 10px;
         }
 
         .toast.show {
